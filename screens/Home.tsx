@@ -5,27 +5,51 @@ import Feed from "../components/Feed";
 export default function Home() {
   const [catList, setCatList] = useState<{}[]>([]);
 
-  const data = async () => {
+  const randomCats = async () => {
     try {
       const res = await axios.get(
-        "https://api.thecatapi.com/v1/images/search",
+        "https://api.thecatapi.com/v1/images/search?limit=50",
         {
           headers: {
-            "Test-Header": "76fe1047-72a2-474e-abce-ef00142c50d2",
+            "x-api-key" : "76fe1047-72a2-474e-abce-ef00142c50d2",
           },
         }
       );
-      setCatList(res.data);
-      console.log(catList)
+      return res.data;
     } catch (error) {
       console.log("error", error);
     }
   };
 
-  useEffect(()=> {
-    data()
-  }, [])
+  const uploadedCats = async () => {
+    try {
+      const res = await axios.get(
+        "https://api.thecatapi.com/v1/images",
+        {
+          headers: {
+            "x-api-key": "76fe1047-72a2-474e-abce-ef00142c50d2",
+          },
+        }
+      );
+       console.log("11111")
+      return res.data
+    } catch (error) {
+      console.log("222222")
+      console.log("error", error);
+    }
+  };
 
+  const allCats = async () => {
+    console.log("randomCats", randomCats())
+    const res = await Promise.all([randomCats(), uploadedCats()]);
+    setCatList([...res[0], ...res[1]]);
+  };
+
+  console.log("kk", catList);
+
+  useEffect(() => {
+    allCats();
+  }, []);
 
   return <Feed data={catList} />;
 }

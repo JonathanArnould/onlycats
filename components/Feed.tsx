@@ -12,6 +12,7 @@ export default function Feed(props: FeedProps) {
   return (
     <ScrollView>
       {props.data.map((cat, i) => {
+        console.log("cat", cat)
         let key = `cat-${i}`;
         return (
           <View key={key} style={styleSheet.container}>
@@ -19,7 +20,7 @@ export default function Feed(props: FeedProps) {
             <Text>{cat.id}</Text>
             <Image
               source={{
-                uri: "https://cdn.pixabay.com/photo/2014/03/29/09/17/cat-300572_960_720.jpg",
+                uri: `${cat.url}`,
                 width: 300,
                 height: 300,
               }}
