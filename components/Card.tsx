@@ -1,38 +1,35 @@
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import cardStyle from "../styles/card"
 
-export default function Card() {
-    const [cat, setCat] = useState({
-        name: "Flutter",
-        location: "Bordeaux",
-        img: "https://www.equilibre-et-instinct.com/blog/wp-content/uploads/2018/12/413071-786x640.jpg",
-        favorite: true,
-        vote: true,
-    })
+interface CardProps {
+    data : any
+}
+
+export default function Card({data} : CardProps) {
 
     const onFavorite = (): void => {
-        setCat({ ...cat, favorite: !cat.favorite})
+        console.log("i love it")
     }
 
     const onVote = (): void => {
-        setCat({ ...cat, vote: !cat.vote})
+        console.log("i vote")
     }
 
 
     return(
         <View style={cardStyle.card}>
             <View style={cardStyle.header}>
-                <Text style={cardStyle.textName}>{ cat.name }</Text>
-                <Text style={cardStyle.textLocation}>{ cat.location }</Text>
+                <Text style={cardStyle.textName}>{ data.id }</Text>
+                <Text style={cardStyle.textLocation}>{ data.location }</Text>
             </View>
-            <Image style={cardStyle.image} source={{ uri: cat.img }} accessibilityLabel={cat.name} />
+            <Image style={cardStyle.image} source={{ uri: data.url }} accessibilityLabel={data.name} />
             <TouchableOpacity style={cardStyle.favorite} onPress={onFavorite}>
-                <Ionicons name={"logo-octocat"} size={30} color={cat.favorite ? "yellow" : "gray"} />
+                <Ionicons name={"logo-octocat"} size={30} color={data.favorite ? "yellow" : "gray"} />
             </TouchableOpacity >
             <TouchableOpacity style={cardStyle.vote} onPress={onVote}>
-                <Ionicons name={"heart-circle"} size={30} color={cat.vote ? "red" : "gray"} />
+                <Ionicons name={"heart-circle"} size={30} color={data.vote ? "red" : "gray"} />
             </TouchableOpacity>
         </View>
     );
