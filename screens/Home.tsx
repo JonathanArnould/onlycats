@@ -31,21 +31,16 @@ export default function Home() {
           },
         }
       );
-       console.log("11111")
       return res.data
     } catch (error) {
-      console.log("222222")
       console.log("error", error);
     }
   };
 
   const allCats = async () => {
-    console.log("randomCats", randomCats())
     const res = await Promise.all([randomCats(), uploadedCats()]);
     setCatList([...res[0], ...res[1]]);
   };
-
-  console.log("kk", catList);
 
   useEffect(() => {
     allCats();
