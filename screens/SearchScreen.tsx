@@ -26,19 +26,6 @@ export default function SearchScreen() {
     }
   };
 
-  console.log(search);
-
-  const timeoutSearchByBreed = async () => {
-    if (timeout) clearTimeout(timeout);
-    const to = window.setTimeout(() => {
-      console.log("eeee");
-      // setSearch(text)
-      searchByBreeds();
-      console.log(search)
-    }, 3000);
-    setTimeout(to);
-  };
-
   return (
     <>
       <SearchBar
@@ -46,10 +33,8 @@ export default function SearchScreen() {
         placeholder="Type Here..."
         onChangeText={(text) => {
           setSearch(text);
-          timeoutSearchByBreed();
-          // setTimeout(() => {
-          //   console.log("eee");
-          // }, 3000);
+          searchByBreeds();
+         
         }}
         value={search}
         onBlur={() => {}}
