@@ -11,11 +11,10 @@ const Tab = createBottomTabNavigator();
 
 export default function Navbar() {
   return (
-    <NavigationContainer theme={MyTheme}>
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
+            let iconName: any;
 
             if (route.name === "Camera") {
               iconName = focused ? "camera" : "camera-outline";
@@ -31,19 +30,7 @@ export default function Navbar() {
         <Tab.Screen name="PublishScreen" component={PublishScreen} />
         <Tab.Screen name="Map" component={MapScreen} />
       </Tab.Navigator>
-    </NavigationContainer>
   );
 }
 
 
-const MyTheme = {
-  dark: false,
-  colors: {
-    primary: 'rgb(12, 0, 0)',
-    background: 'rgb(12, 0, 0)',
-    card: 'rgb(12, 0, 0)',
-    text: 'rgb(28, 28, 30)',
-    border: 'rgb(12, 0, 0)',
-    notification: 'rgb(255, 69, 58)',
-  },
-};
