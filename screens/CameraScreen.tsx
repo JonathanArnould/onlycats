@@ -1,16 +1,60 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { StyleSheet, Image, Text, View, Platform, TouchableOpacity } from "react-native";
 import { Camera } from "expo-camera";
+import * as ImagePicker from 'expo-image-picker';
+import * as ImageManipulator from "expo-image-manipulator";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { useIsFocused } from '@react-navigation/native';
 
-export default function CameraScreen() {
+
+export default function CameraScreen({ navigation}) {
   const [hasPermission, setHasPermission] = useState(null);
+  const [image, setImage] = useState(null);
+  const cameraRef = useRef(null);
+  const [type, setType] = useState(Camera.Constants.Type.back);
+  const isFocused = useIsFocused();
+
+  const buttonClickedHandler = async () => {
+      const pictureMetadata = await cameraRef.current.takePictureAsync();
+      // console.log("pictureMetadata", pictureMetadata);
+      navigation.navigate('PublishScreen', {
+        picture : pictureMetadata
+      });
+  };
+
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
-      setHasPermission(status === "granted");
+      setHasPermission(status === 'granted');
     })();
   }, []);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
 
   if (hasPermission === null) {
     return <View />;
@@ -20,8 +64,30 @@ export default function CameraScreen() {
   }
   return (
     <>
-      <Camera style={styles.camera} />
-      <Button title="Press me" onPress={() => console.log("Pressed")} />
+      { isFocused && <Camera style={styles.camera} type={type} ref={cameraRef}/>  }
+      
+      <TouchableOpacity
+        onPress={buttonClickedHandler}
+        style={styles.picture}>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.flip}
+        onPress={() => {
+            setType(
+            type === Camera.Constants.Type.back
+                ? Camera.Constants.Type.front
+                : Camera.Constants.Type.back
+            );
+        }}>
+          <Text><Ionicons name={"camera-reverse-outline"} size={30} color={"white"} /></Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={pickImage}
+        style={styles.fileupload}>
+        <Text><Ionicons name={"duplicate-outline"} size={30} color={"white"}/></Text>
+      </TouchableOpacity>
     </>
   );
 }
@@ -29,5 +95,33 @@ export default function CameraScreen() {
 const styles = StyleSheet.create({
   camera: {
     flex: 1,
+  },
+  picture: {
+    borderStyle: 'solid',
+    borderColor: 'white',
+    borderWidth: 1,
+    position: 'absolute',
+    bottom: 15,
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    padding: 10,
+    borderRadius: 100,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+  },
+  fileupload: {
+    position: 'absolute',
+    bottom: 15,
+    left: 15,
+  },
+  flip: {
+    position: 'absolute',
+    bottom: 15,
+    right: 15,
+  },
+  text: {
+    fontSize: 18,
+    color: 'white',
   },
 });
