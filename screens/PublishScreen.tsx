@@ -13,10 +13,12 @@ export default function ImagesScreen({ route, navigation }) {
         source={{uri: route.params.picture.uri}}
       />
       <TextInput
-      style={styles.input}
-      placeholder="useless placeholder"
-      keyboardType="numeric"
-    />
+        multiline
+        numberOfLines={4}
+        onChangeText={text => onChangeText(text)}
+        value={value}
+        style={{padding: 10}}
+      />
   </>
   )
 }

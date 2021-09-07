@@ -4,6 +4,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import CameraScreen from "../screens/CameraScreen";
 import PublishScreen from "../screens/PublishScreen";
+import Home from "../screens/Home";
+import MapScreen from "../screens/MapScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -24,8 +26,10 @@ export default function Navbar() {
           tabBarInactiveTintColor: "white",
         })}
       >
+        <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Camera" component={CameraScreen} />
         <Tab.Screen name="PublishScreen" component={PublishScreen} />
+        <Tab.Screen name="Map" component={MapScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
