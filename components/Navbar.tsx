@@ -28,7 +28,6 @@ export default function Navbar() {
       >
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Camera" component={CameraScreen} />
-        <Tab.Screen name="PublishScreen" component={PublishScreen} />
         <Tab.Screen name="Map" component={MapScreen} />
       </Tab.Navigator>
     </NavigationContainer>
