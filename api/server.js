@@ -2,49 +2,67 @@ import axios from 'axios'
 import express from 'express';
 import expressGraphQl from 'express-graphql';
 import graphqQl from 'graphql';
-import catNames from 'cat-names'
+import mongoose from 'mongoose';
 
+import * as catResolver from './resolvers/cats-resolvers.js'
 
 const schema = graphqQl.buildSchema(`
-  type Object {
-    id: String
-    url: String
-    name: String
+  type Coordinates {
+    longitude: String!
+    latitude: String!
   }
+
+  input CatInput {
+    name: String!
+    file: String!
+    address: String!
+  }
+
+  type Cat {
+    _id: ID!
+    url: String!
+    name: String!
+    isFavorite: Boolean
+    coordinates: Coordinates!
+    createdAt: String!
+  }
+
   type Query {
-    getRandomCats(limit: Int): [Object]
+    getCats(limit: Int): [Cat!]
+  }
+  type Mutation {
+    createCat(cat: CatInput): Cat
+  }
+
+  schema {
+    query: Query
+    mutation: Mutation
   }
 `);
 
-// The root provides a resolver function for each API endpoint
-const root = {
-  hello: () => {
-    return 'Hello world!';
-  },
-  getRandomCats: async ({ limit }) => {
-    const res = await axios.get(
-      `https://api.thecatapi.com/v1/images/search?limit=${limit}`,
-      {
-        headers: {
-          "x-api-key": "76fe1047-72a2-474e-abce-ef00142c50d2",
-        },
-      }
-    );
-    console.log(res.data)
-    const randomCatNames = catNames.all
-    const shuffleCatNames = randomCatNames.sort((a, b) => 0.5 - Math.random());
-    return res.data.map((cat, index) => ({ ...cat, name: shuffleCatNames[index] }));
-  }
-};
 
 const app = express();
+const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.a4at6.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`
+const options = { useNewUrlParser: true, useUnifiedTopology: true }
 
 app.use('/graphql', expressGraphQl.graphqlHTTP({
   schema: schema,
-  rootValue: root,
+  rootValue: catResolver,
   graphiql: true,
 }));
 
-app.listen(4000);
+async function startServer() {
+  try {
+    await mongoose.connect(uri, options)
+    app.listen(4000, console.log('Running a GraphQL API server at http://localhost:4000/graphql'));
 
-console.log('Running a GraphQL API server at http://localhost:4000/graphql');
+  } catch (error) {
+    throw new Error(error)
+
+  }
+}
+
+startServer()
+
+
+
