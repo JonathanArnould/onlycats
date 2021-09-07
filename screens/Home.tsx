@@ -15,6 +15,22 @@ export default function Home() {
           },
         }
       );
+      const resGraph = await axios({
+        url: "http://localhost:4000/graphql",
+        method: "get",
+        data: {
+          query: `
+          query GetRandomCats{
+            getRandomCats(limit: 3){
+              id,
+              name,
+              url
+            }
+          }
+        `,
+        },
+      });
+      console.log(res);
       return res.data;
     } catch (error) {
       console.log("error", error);
@@ -23,15 +39,12 @@ export default function Home() {
 
   const uploadedCats = async () => {
     try {
-      const res = await axios.get(
-        "https://api.thecatapi.com/v1/images",
-        {
-          headers: {
-            "x-api-key": "76fe1047-72a2-474e-abce-ef00142c50d2",
-          },
-        }
-      );
-      return res.data
+      const res = await axios.get("https://api.thecatapi.com/v1/images", {
+        headers: {
+          "x-api-key": "76fe1047-72a2-474e-abce-ef00142c50d2",
+        },
+      });
+      return res.data;
     } catch (error) {
       console.log("error", error);
     }
