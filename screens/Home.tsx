@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Feed from "../components/Feed";
 
-export default function Home() {
+export default function Home({ navigation }: any) {
   const [catList, setCatList] = useState<{}[]>([]);
 
   const randomCats = async () => {
@@ -46,5 +46,5 @@ export default function Home() {
     allCats();
   }, []);
 
-  return <Feed data={catList} />;
+  return <Feed data={catList} navigation={navigation}/>;
 }
