@@ -12,6 +12,14 @@ const catsSchema = new Schema(
       type: String,
       required: true,
     },
+    breed: {
+      type String,
+      required: true,
+    },
+    category: {
+      type String,
+      required: true,
+    }
     isFavorite: {
       type: Boolean,
       required: false,
@@ -26,7 +34,6 @@ const catsSchema = new Schema(
       latitude: String,
     }
   },
-  { timestamps: true }
 )
 
 const CatModel = mongoose.model("Cats", catsSchema);
