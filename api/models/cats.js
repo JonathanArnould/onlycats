@@ -13,13 +13,13 @@ const catsSchema = new Schema(
       required: true,
     },
     breed: {
-      type String,
+      type: String,
       required: true,
     },
     category: {
-      type String,
+      type: String,
       required: true,
-    }
+    },
     isFavorite: {
       type: Boolean,
       required: false,
