@@ -15,22 +15,6 @@ export default function Home() {
           },
         }
       );
-      const resGraph = await axios({
-        url: "http://localhost:4000/graphql",
-        method: "get",
-        data: {
-          query: `
-          query GetRandomCats{
-            getRandomCats(limit: 3){
-              id,
-              name,
-              url
-            }
-          }
-        `,
-        },
-      });
-      console.log(res);
       return res.data;
     } catch (error) {
       console.log("error", error);

@@ -11,7 +11,6 @@ export default function Feed(props: FeedProps) {
   return (
     <ScrollView>
       {props.data.map((cat, i) => {
-        console.log("cat", cat);
         let key = `cat-${i}`;
         return <Card key={key} data={cat} />;
       })}
