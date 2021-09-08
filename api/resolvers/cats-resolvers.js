@@ -1,3 +1,4 @@
+import { getActionFromState } from '@react-navigation/native'
 import CatModel from '../models/cats.js'
 
 async function createCat(args) {
@@ -13,4 +14,20 @@ async function createCat(args) {
     }
 }
 
-export { createCat }
+async function getCats(args) {
+    try{
+        const catsList = await CatModel.find().sort({field: 'desc', createdAt: -1})
+        if (args) {
+            catsList.limit(args)
+            return catsList;
+        } else {
+            return catsList
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
+
+
+export { createCat, getCats }
