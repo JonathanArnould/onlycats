@@ -1,4 +1,3 @@
-import { getActionFromState } from '@react-navigation/native'
 import CatModel from '../models/cats.js'
 
 async function createCat(args) {
