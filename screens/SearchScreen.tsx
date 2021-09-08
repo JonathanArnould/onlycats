@@ -1,29 +1,66 @@
-import { Ionicons } from "@expo/vector-icons";
-import axios from "axios";
 import React, { useState } from "react";
-import { Icon, SearchBar } from "react-native-elements";
+import { View,  Text, ImageBackground } from "react-native";
+import { SearchBar } from "react-native-elements";
 import Feed from "../components/Feed";
 
 export default function SearchScreen() {
-  const [search, setSearch] = useState<string>("");
-  const [filteredData, setFilteredData] = useState<string[]>([]);
-  const [timeout, setTimeout] = useState<number | undefined>();
+  const data = [
+    {
+      id: 1,
+      name: "Kiwi",
+      breed: "bengal",
+      city: "Lyon",
+      url: "https://cdn.pixabay.com/photo/2021/02/10/18/25/bengal-6003107_960_720.jpg",
+      isFavorite: true,
+    },
+    {
+      id: 2,
+      name: "Caramel",
+      breed: "maine coon",
+      city: "Bordeaux",
+      url: "https://cdn.pixabay.com/photo/2021/01/15/17/37/cat-5919989_960_720.jpg",
+      isFavorite: false,
+    },
+    {
+      id: 3,
+      name: "Speculos",
+      breed: "bengal",
+      city: "Bordeaux",
+      url: "https://cdn.pixabay.com/photo/2021/02/10/18/25/bengal-6003103_960_720.jpg",
+      isFavorite: true,
+    },
+    {
+      id: 4,
+      name: "Balthazar",
+      breed: "maine coon",
+      city: "Lille",
+      url: "https://cdn.pixabay.com/photo/2018/04/24/19/07/maine-coon-3347769_960_720.jpg",
+      isFavorite: false,
+    },
+    {
+      id: 5,
+      name: "Sasuke",
+      breed: "siamois",
+      city: "Nantes",
+      url: "https://cdn.pixabay.com/photo/2017/02/15/12/12/cat-2068462_960_720.jpg",
+      isFavorite: false,
+    },
+    {
+      id: 6,
+      name: "Naruto",
+      breed: "siamois",
+      city: "Nantes",
+      url: "https://cdn.pixabay.com/photo/2015/08/09/19/02/cat-882049_960_720.jpg",
+      isFavorite: true,
+    },
+  ];
 
-  const searchByBreeds = async () => {
-    try {
-      const res = await axios.get(
-        `https://api.thecatapi.com/v1/images/search?limit=50&breed_id=${search}`,
-        {
-          headers: {
-            "x-api-key": "76fe1047-72a2-474e-abce-ef00142c50d2",
-          },
-        }
-      );
-      setFilteredData(res.data);
-      console.log(res.data);
-    } catch (error) {
-      console.log("error", error);
-    }
+  const [search, setSearch] = useState<string>("");
+
+  const filteredCats = () => {
+    return data.filter((el: any) => {
+      return el.breed.startsWith(`${search.toLowerCase()}`);
+    });
   };
 
   return (
@@ -31,31 +68,51 @@ export default function SearchScreen() {
       <SearchBar
         platform="android"
         placeholder="Type Here..."
-        onChangeText={(text) => {
+        //@ts-ignore
+        onChangeText={(text: string) :void=> {
           setSearch(text);
-          searchByBreeds();
-         
         }}
         value={search}
+        searchIcon={{
+          name: "search",
+        }}
+        clearIcon={{
+          name: "close",
+        }}
+        showCancel={true}
+        showLoading={false}
         onBlur={() => {}}
         onFocus={() => {}}
         onClear={() => {}}
         loadingProps={{}}
-        searchIcon={{
-          name: "",
-        }}
-        clearIcon={{
-          name: "",
-        }}
-        showLoading={false}
         onCancel={() => {}}
-        cancelButtonTitle={""}
+        cancelButtonTitle={"Cancel"}
         cancelButtonProps={{}}
-        showCancel={false}
         lightTheme={false}
         round={false}
       />
-      <Feed data={filteredData} />
+      {filteredCats().length > 0 ? (
+        <Feed data={filteredCats()} />
+      ) : (
+        <View
+          style={{
+            display: "flex",
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 24 }}>No results...</Text>
+
+          <ImageBackground
+            resizeMode="cover"
+            style={{ width: 300, height: 300, marginTop: 50 }}
+            source={{
+              uri: "https://c.tenor.com/GTcT7HODLRgAAAAM/smiling-cat-creepy-cat.gif",
+            }}
+          />
+        </View>
+      )}
     </>
   );
 }
