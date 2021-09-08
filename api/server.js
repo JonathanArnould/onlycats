@@ -1,4 +1,3 @@
-import axios from 'axios'
 import express from 'express';
 import expressGraphQl from 'express-graphql';
 import graphqQl from 'graphql';
@@ -18,6 +17,10 @@ const schema = graphqQl.buildSchema(`
     address: String!
   }
 
+  input CatFavorite {
+    id: String!
+  }
+
   type Cat {
     _id: ID!
     url: String!
@@ -32,6 +35,7 @@ const schema = graphqQl.buildSchema(`
   }
   type Mutation {
     createCat(cat: CatInput): Cat
+    addToFavorites(fav: CatFavorite): Cat
   }
 
   schema {
