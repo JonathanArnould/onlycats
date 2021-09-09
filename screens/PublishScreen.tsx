@@ -75,7 +75,7 @@ export default function ImagesScreen({ route }: Props) {
         breed: "${breed}", 
         city: "${city}", 
         coordinates: {longitude: ${coordinates.longitude}, latitude: ${coordinates.latitude}},
-        description: "${name}"
+        description: "${description}"
       }) {
         _id
         url
