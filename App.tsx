@@ -50,7 +50,6 @@ export default function App() {
     })()
   }, [])
   
-  console.log("111", catData)
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
