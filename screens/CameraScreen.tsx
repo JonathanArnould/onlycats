@@ -9,12 +9,12 @@ import {
 } from "react-native";
 import { Camera } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
-import * as ImageManipulator from "expo-image-manipulator";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 import Constants from "expo-constants";
 import * as Location from "expo-location";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { ParamListBase, useIsFocused, useNavigation } from "@react-navigation/native";
+import {StackNavigationProp} from '@react-navigation/stack';
 
 type CatInput = {
   name: string;
@@ -25,19 +25,20 @@ type CatInput = {
   address: string;
 };
 
-export default function CameraScreen({ navigation }) {
-  const [hasPermission, setHasPermission] = useState(null);
-  const [image, setImage] = useState(null);
-  const cameraRef = useRef(null);
+type CameraScreenProps = StackNavigationProp<ParamListBase, 'Camera'>;
+
+export default function CameraScreen() {
+  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  const [image, setImage] = useState<string>("");
+  const cameraRef = useRef<any>(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const isFocused = useIsFocused();
 
-  const { manifest } = Constants;
+  const navigation = useNavigation<CameraScreenProps>();
 
   const buttonClickedHandler = async () => {
     const pictureMetadata = await cameraRef.current.takePictureAsync();
-    // console.log("pictureMetadata", pictureMetadata);
-    navigation.navigate("PublishScreen", {
+    navigation.navigate("Publication", {
       picture: pictureMetadata,
     });
   };
@@ -119,6 +120,8 @@ export default function CameraScreen({ navigation }) {
       base64: true,
     });
 
+    console.log(result);
+
     if (!result.cancelled) {
       setImage(result.uri);
     }
@@ -132,9 +135,9 @@ export default function CameraScreen({ navigation }) {
   }
   return (
     <>
-      {isFocused && (
-        <Camera style={styles.camera} type={type} ref={cameraRef} />
-      )}
+
+
+      {isFocused && (<Camera style={styles.camera} type={type} ref={cameraRef} />)}
 
       <TouchableOpacity
         onPress={buttonClickedHandler}
