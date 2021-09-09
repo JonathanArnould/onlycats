@@ -1,15 +1,34 @@
 import CatModel from '../models/cats.js'
+import axios from 'axios';
 
 async function createCat(args) {
     try {
-        const date = new Date();
-        const { name, file, address } = args.cat
-        const cat = new CatModel({ name, url: file, coordinates: { longitude: address, latitude: address }, createdAt: date })
+        console.log(args.cat)
+        const { name, file, address, coordinates, breed, category, city, description } = args.cat
+        const imgurRes = await axios({
+            method: "POST",
+            url: "https://api.imgur.com/3/image",
+            headers: { 'Authorization': `Client-ID ${process.env.IMGUR_CLIENT_ID}` },
+            data: {
+                image: file,
+            }
+        })
+        console.log(imgurRes)
+        const cat = new CatModel({
+            name,
+            city,
+            breed,
+            category,
+            url: imgurRes.data.data.link,
+            coordinates: { longitude: coordinates.longitude, latitude: coordinates.latitude },
+            description,
+            createdAt: new Date()
+        })
 
         const newCat = await cat.save()
         return newCat
     } catch (error) {
-        throw error;
+        throw error.message;
     }
 }
 

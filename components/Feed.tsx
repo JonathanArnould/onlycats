@@ -1,6 +1,5 @@
 import React from "react";
 import { ScrollView, View } from "react-native";
-import styleSheet from "../styles/feed";
 import Card from "./Card";
 
 interface FeedProps {
