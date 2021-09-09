@@ -18,7 +18,7 @@ export default function App() {
   const { manifest } = Constants;
   const uri = `http://${manifest.debuggerHost?.split(`:`).shift().concat(`:4000`)}`;
 
-  const [catData , setCatData] = useState([])
+  const [catData , setCatData] = useState<{}[]>([])
 
   const fetchData = async () => {
     try{
@@ -30,6 +30,8 @@ export default function App() {
             getCats(limit: 10) {
               _id
               name
+              url
+              breed
               isFavorite
             }
           }          
