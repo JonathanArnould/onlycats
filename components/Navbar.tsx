@@ -57,7 +57,10 @@ export default function Navbar(props: navbarProps) {
         children={() => <SearchScreen catData={props.catData} />}
       />
       <Tab.Screen name="Camera" component={CameraScreen} />
-      <Tab.Screen name="Map" component={MapScreen} />
+      <Tab.Screen
+        name="Map"
+        children={() => <MapScreen catData={props.catData} />}
+      />
       <Tab.Screen
         name="Favorites"
         children={() => <Favorites catData={props.catData} />}

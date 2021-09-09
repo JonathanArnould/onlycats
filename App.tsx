@@ -33,6 +33,7 @@ export default function App() {
               url
               breed
               isFavorite
+              coordinates {longitude, latitude}
             }
           }          
         `,

@@ -12,8 +12,7 @@ const cats = [
       latitude: 44.84132461780238,
       longitude: -0.5701245711323272,
     },
-    image:
-      "https://www.i-cad.fr/uploads/Connaitre_chat.jpg",
+    image: "https://www.i-cad.fr/uploads/Connaitre_chat.jpg",
   },
   {
     id: "4567",
@@ -27,12 +26,12 @@ const cats = [
   },
 ];
 
-export default function MapScreen() {
+export default function MapScreen(props: { catData: any[] }) {
   const [userLocation, setUserLocation] = useState({
     latitude: 0,
     longitude: 0,
   });
-
+  console.log("mapScreen:", props.catData);
   const requestLocationPermission = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -73,24 +72,22 @@ export default function MapScreen() {
         style={styles.map}
         initialRegion={{
           ...userLocation,
-          latitudeDelta: 10,
-          longitudeDelta: 45,
+          latitudeDelta: 0,
+          longitudeDelta: 0,
         }}
+        followsUserLocation={true}
       >
         <Marker coordinate={userLocation} />
-        {cats.map((cat, id) => {
+        {props?.catData?.map((cat, id) => {
           return (
             <Marker
               title={cat.name}
-              key={id}
-              coordinate={cat.coordinate}
-              image={{ uri: "custom" }}
+              description={cat.description}
+              key={cat.id}
+              coordinate={cat.coordinates}
             >
               <View style={styles.marker}>
-                <Image
-                  source={{ uri: cat.image }}
-                  style={styles.image}
-                />
+                <Image source={{ uri: cat.url }} style={styles.image} />
               </View>
             </Marker>
           );
@@ -114,7 +111,7 @@ const styles = StyleSheet.create({
   image: {
     borderRadius: 100,
     width: 50,
-    height: 50
+    height: 50,
   },
   marker: {
     backgroundColor: "blue",
