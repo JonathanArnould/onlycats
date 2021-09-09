@@ -61,7 +61,13 @@ export default function CameraScreen({ navigation }) {
     })();
   }, []);
 
-  const getPositionByAddress = async ({ address, city }: {address: string, city: string}) => {
+  const getPositionByAddress = async ({
+    address,
+    city,
+  }: {
+    address: string;
+    city: string;
+  }) => {
     return Location.geocodeAsync(`${address} ${city}`);
   };
 
@@ -92,7 +98,7 @@ export default function CameraScreen({ navigation }) {
     };
     try {
       await axios({
-        url: `http://${manifest?.debuggerHost
+        url: `http://${manifest.debuggerHost
           ?.split(`:`)
           .shift()
           .concat(`:4000`)}/graphql`,
