@@ -9,10 +9,10 @@ import {
 } from "react-native";
 import { Camera } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
-import * as ImageManipulator from "expo-image-manipulator";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { ParamListBase, useIsFocused, useNavigation } from "@react-navigation/native";
 import {StackNavigationProp} from '@react-navigation/stack';
+
 
 type CameraScreenProps = StackNavigationProp<ParamListBase, 'Camera'>;
 
@@ -27,7 +27,7 @@ export default function CameraScreen() {
 
   const buttonClickedHandler = async () => {
     const pictureMetadata = await cameraRef.current.takePictureAsync();
-    navigation.navigate("PublishScreen", {
+    navigation.navigate("Publication", {
       picture: pictureMetadata,
     });
   };
@@ -74,9 +74,9 @@ export default function CameraScreen() {
   }
   return (
     <>
-      {isFocused && (
-        <Camera style={styles.camera} type={type} ref={cameraRef} />
-      )}
+
+
+      {isFocused && (<Camera style={styles.camera} type={type} ref={cameraRef} />)}
 
       <TouchableOpacity
         onPress={buttonClickedHandler}
