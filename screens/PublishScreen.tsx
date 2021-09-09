@@ -11,10 +11,11 @@ import {
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
 import { useForm, Controller } from "react-hook-form";
-import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
 import Constants from "expo-constants";
 import * as Location from "expo-location";
+import { Picker } from "@react-native-picker/picker";
+import publication from "../styles/publication";
 
 type RootStackParamList = {
   PublishScreen: any;
@@ -74,7 +75,7 @@ export default function ImagesScreen({ route }: Props) {
         breed: "${breed}", 
         city: "${city}", 
         coordinates: {longitude: ${coordinates.longitude}, latitude: ${coordinates.latitude}},
-        description: "${description}
+        description: "${name}"
       }) {
         _id
         url
@@ -87,7 +88,7 @@ export default function ImagesScreen({ route }: Props) {
     }
     `,
     };
-    console.log(body);
+    console.log({ name, category, breed, city, description, coordinates });
     try {
       await axios({
         url: `http://${manifest.debuggerHost
@@ -130,8 +131,8 @@ export default function ImagesScreen({ route }: Props) {
             uri: route.params !== undefined && route.params.picture.uri,
           }}
         />
-        <View style={styles.container}>
-          <Text style={styles.label}>Nom</Text>
+        <View style={publication.container}>
+          <Text style={publication.label}>Nom</Text>
           <Controller
             control={control}
             rules={{
@@ -139,7 +140,7 @@ export default function ImagesScreen({ route }: Props) {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                style={styles.input}
+                style={publication.input}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -150,7 +151,7 @@ export default function ImagesScreen({ route }: Props) {
             defaultValue=""
           />
           {errors.Name && <Text>This is required.</Text>}
-          <Text style={styles.label}>Race</Text>
+          <Text style={publication.label}>Race</Text>
           <Controller
             control={control}
             rules={{
@@ -158,7 +159,6 @@ export default function ImagesScreen({ route }: Props) {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <Picker
-                style={styles.input}
                 itemStyle={publication.input}
                 prompt={"Race du chat"}
                 selectedValue={selectedBreed}
@@ -175,7 +175,7 @@ export default function ImagesScreen({ route }: Props) {
             name="Race"
             defaultValue=""
           />
-          <Text style={styles.label}>Catégorie</Text>
+          <Text style={publication.label}>Catégorie</Text>
           <Controller
             control={control}
             rules={{
@@ -183,7 +183,6 @@ export default function ImagesScreen({ route }: Props) {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <Picker
-                style={styles.input}
                 itemStyle={publication.input}
                 prompt={"Catégorie"}
                 selectedValue={selectedCategory}
@@ -199,7 +198,7 @@ export default function ImagesScreen({ route }: Props) {
             name="Category"
             defaultValue=""
           />
-          <Text style={styles.label}>Adresse</Text>
+          <Text style={publication.label}>Adresse</Text>
           <Controller
             control={control}
             rules={{
@@ -207,7 +206,7 @@ export default function ImagesScreen({ route }: Props) {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                style={styles.input}
+                style={publication.input}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -218,7 +217,7 @@ export default function ImagesScreen({ route }: Props) {
             defaultValue=""
           />
 
-          <Text style={styles.label}>Ville</Text>
+          <Text style={publication.label}>Ville</Text>
           <Controller
             control={control}
             rules={{
@@ -226,7 +225,7 @@ export default function ImagesScreen({ route }: Props) {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                style={styles.input}
+                style={publication.input}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -237,7 +236,7 @@ export default function ImagesScreen({ route }: Props) {
             defaultValue=""
           />
 
-          <Text style={styles.label}>Description</Text>
+          <Text style={publication.label}>Description</Text>
           <Controller
             control={control}
             rules={{
@@ -247,7 +246,7 @@ export default function ImagesScreen({ route }: Props) {
               <TextInput
                 multiline
                 numberOfLines={4}
-                style={styles.input}
+                style={publication.input}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}

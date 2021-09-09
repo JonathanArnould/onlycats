@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
-  StyleSheet,
-  Image,
   Text,
   View,
   Platform,
   TouchableOpacity,
 } from "react-native";
+import camera from "../styles/camera";
 import { Camera } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -69,6 +68,9 @@ export default function CameraScreen() {
 
     if (!result.cancelled) {
       setImage(result.uri);
+      navigation.navigate("Publication", {
+        picture: result,
+      });
     }
   };
 
@@ -80,17 +82,16 @@ export default function CameraScreen() {
   }
   return (
     <>
-      {isFocused && (
-        <Camera style={styles.camera} type={type} ref={cameraRef} />
-      )}
+
+      {isFocused && (<Camera style={camera.camera} type={type} ref={cameraRef} />)}
 
       <TouchableOpacity
         onPress={buttonClickedHandler}
-        style={styles.picture}
+        style={camera.picture}
       ></TouchableOpacity>
 
       <TouchableOpacity
-        style={styles.flip}
+        style={camera.flip}
         onPress={() => {
           setType(
             type === Camera.Constants.Type.back
@@ -104,7 +105,7 @@ export default function CameraScreen() {
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={pickImage} style={styles.fileupload}>
+      <TouchableOpacity onPress={pickImage} style={camera.fileupload}>
         <Text>
           <Ionicons name={"duplicate-outline"} size={30} color={"white"} />
         </Text>
@@ -112,37 +113,3 @@ export default function CameraScreen() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  camera: {
-    flex: 1,
-  },
-  picture: {
-    borderStyle: "solid",
-    borderColor: "white",
-    borderWidth: 1,
-    position: "absolute",
-    bottom: 15,
-    width: 60,
-    height: 60,
-    justifyContent: "center",
-    alignSelf: "center",
-    padding: 10,
-    borderRadius: 100,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
-  },
-  fileupload: {
-    position: "absolute",
-    bottom: 15,
-    left: 15,
-  },
-  flip: {
-    position: "absolute",
-    bottom: 15,
-    right: 15,
-  },
-  text: {
-    fontSize: 18,
-    color: "white",
-  },
-});

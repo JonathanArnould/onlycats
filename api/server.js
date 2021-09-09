@@ -25,6 +25,7 @@ const schema = graphqQl.buildSchema(`
     city: String!
     file: String!
     coordinates: InputCoordinates!
+    description: String!
   }
 
   input CatFavorite {
