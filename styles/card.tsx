@@ -29,11 +29,13 @@ const card = StyleSheet.create({
     textName: {
         padding: 2,
         paddingLeft: 5,
-        fontWeight: "bold"
+        fontWeight: "bold",
+        color:"white"
     },
     textLocation: {
         padding: 2,
         paddingLeft: 5,
+        color:"white"
     },
     vote: {
         width: 30,
