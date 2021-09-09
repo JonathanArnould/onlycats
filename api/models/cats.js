@@ -18,11 +18,11 @@ const catsSchema = new Schema(
     },
     breed: {
       type: String,
-      required: true,
+      required: false,
     },
     category: {
       type: String,
-      required: true,
+      required: false,
     },
     isFavorite: {
       type: Boolean,
