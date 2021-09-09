@@ -2,8 +2,12 @@ import express from 'express';
 import expressGraphQl from 'express-graphql';
 import graphqQl from 'graphql';
 import mongoose from 'mongoose';
+<<<<<<< HEAD
 import cors from 'cors'
 import bodyParser from 'body-parser'
+=======
+import cors from 'cors';
+>>>>>>> dev
 
 import * as catResolver from './resolvers/cats-resolvers.js'
 
@@ -65,10 +69,13 @@ const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@c
 const options = { useNewUrlParser: true, useUnifiedTopology: true }
 
 app.use(cors())
+<<<<<<< HEAD
 app.use(bodyParser.json({
   limit: '50mb'
 }));
 
+=======
+>>>>>>> dev
 app.use('/graphql', expressGraphQl.graphqlHTTP({
   schema: schema,
   rootValue: catResolver,
