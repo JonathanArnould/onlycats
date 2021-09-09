@@ -7,6 +7,7 @@ import PublishScreen from "../screens/PublishScreen";
 import Home from "../screens/Home";
 import MapScreen from "../screens/MapScreen";
 import { ParamListBase } from "@react-navigation/native";
+import Favorites from "../screens/Favorites";
 
 const Tab = createBottomTabNavigator();
 
@@ -32,6 +33,7 @@ export default function Navbar(props: navbarProps){
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Camera" component={CameraScreen} />
         <Tab.Screen name="Map" component={MapScreen} />
+        <Tab.Screen name="Favorites" component={Favorites}/>
       </Tab.Navigator>
   );
 }

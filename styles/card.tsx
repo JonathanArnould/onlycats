@@ -20,7 +20,8 @@ const card = StyleSheet.create({
         borderStyle: "solid",
         borderBottomWidth: 2,
         borderBottomRightRadius: 3,
-        borderColor: "lightgray"
+        borderColor: "lightgray",
+        color: "white"
     },
     image: {
         width: 410,
@@ -29,11 +30,13 @@ const card = StyleSheet.create({
     textName: {
         padding: 2,
         paddingLeft: 5,
-        fontWeight: "bold"
+        fontWeight: "bold",
+        color: "white"
     },
     textLocation: {
         padding: 2,
         paddingLeft: 5,
+        color: "white"
     },
     vote: {
         width: 30,
