@@ -1,10 +1,27 @@
-import { getActionFromState } from '@react-navigation/native'
 import CatModel from '../models/cats.js'
+import axios from 'axios';
 
 async function createCat(args) {
     try {
-        const { name, file, address } = args.cat
-        const cat = new CatModel({ name, url: file, coordinates: { longitude: address, latitude: address }, createdAt: Date.now() })
+        console.log(args)
+        const { name, file, address, coordinates, breed, category, city } = args.cat
+        const imgurRes = await axios({
+            method: "POST",
+            url: "https://api.imgur.com/3/image",
+            headers: { 'Authorization': `Client-ID ${process.env.IMGUR_CLIENT_ID}` },
+            data: {
+                image: file,
+            }
+        })
+        const cat = new CatModel({
+            name,
+            city,
+            breed,
+            category,
+            url: imgurRes.data.data.link,
+            coordinates: { longitude: coordinates.longitude, latitude: coordinates.latitude },
+            createdAt: Date.now()
+        })
 
         const newCat = await cat.save()
 
@@ -15,8 +32,8 @@ async function createCat(args) {
 }
 
 async function getCats(args) {
-    try{
-        const catsList = await CatModel.find().sort({field: 'desc', createdAt: -1})
+    try {
+        const catsList = await CatModel.find().sort({ field: 'desc', createdAt: -1 })
         if (args) {
             catsList.limit(args)
             return catsList;

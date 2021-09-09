@@ -3,25 +3,38 @@ import express from 'express';
 import expressGraphQl from 'express-graphql';
 import graphqQl from 'graphql';
 import mongoose from 'mongoose';
+import cors from 'cors'
+import bodyParser from 'body-parser'
 
 import * as catResolver from './resolvers/cats-resolvers.js'
 
 const schema = graphqQl.buildSchema(`
   type Coordinates {
-    longitude: String!
-    latitude: String!
+    longitude: Float!
+    latitude: Float!
+  }
+  
+  input InputCoordinates {
+    longitude: Float!
+    latitude: Float!
   }
 
   input CatInput {
     name: String!
+    breed: String!
+    category: String!
+    city: String!
     file: String!
-    address: String!
+    coordinates: InputCoordinates!
   }
 
   type Cat {
     _id: ID!
     url: String!
     name: String!
+    city: String!
+    breed: String!
+    category: String!
     isFavorite: Boolean
     coordinates: Coordinates!
     createdAt: String!
@@ -44,6 +57,11 @@ const schema = graphqQl.buildSchema(`
 const app = express();
 const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.a4at6.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`
 const options = { useNewUrlParser: true, useUnifiedTopology: true }
+
+app.use(cors())
+app.use(bodyParser.json({
+  limit: '50mb'
+}));
 
 app.use('/graphql', expressGraphQl.graphqlHTTP({
   schema: schema,

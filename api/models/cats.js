@@ -10,7 +10,11 @@ const catsSchema = new Schema(
     },
     url: {
       type: String,
-      required: true,
+      required: false,
+    },
+    city: {
+      type: String,
+      required: true
     },
     breed: {
       type: String,
@@ -30,8 +34,8 @@ const catsSchema = new Schema(
       required: false,
     },
     coordinates: {
-      longitude: String,
-      latitude: String,
+      longitude: Number,
+      latitude: Number,
     }
   },
 )
