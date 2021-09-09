@@ -3,7 +3,6 @@ import axios from 'axios';
 
 async function createCat(args) {
     try {
-        console.log(args.cat)
         const { name, file, address, coordinates, breed, category, city, description } = args.cat
         const imgurRes = await axios({
             method: "POST",
@@ -13,7 +12,6 @@ async function createCat(args) {
                 image: file,
             }
         })
-        console.log(imgurRes)
         const cat = new CatModel({
             name,
             city,
@@ -28,6 +26,7 @@ async function createCat(args) {
         const newCat = await cat.save()
         return newCat
     } catch (error) {
+        console.log(error.message)
         throw error.message;
     }
 }
