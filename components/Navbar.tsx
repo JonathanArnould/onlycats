@@ -6,6 +6,7 @@ import CameraScreen from "../screens/CameraScreen";
 import PublishScreen from "../screens/PublishScreen";
 import Home from "../screens/Home";
 import MapScreen from "../screens/MapScreen";
+import SearchScreen from "../screens/SearchScreen";
 
 
 const Tab = createBottomTabNavigator();
@@ -37,6 +38,7 @@ export default function Navbar() {
         })}
       >
         <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Search" component={SearchScreen} />
         <Tab.Screen name="Camera" component={CameraScreen} />
         <Tab.Screen name="Map" component={MapScreen} />
       </Tab.Navigator>
