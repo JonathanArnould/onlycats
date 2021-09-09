@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View,  Text, ImageBackground } from "react-native";
+import { View, Text, ImageBackground } from "react-native";
 import { SearchBar } from "react-native-elements";
 import Feed from "../components/Feed";
 
@@ -12,6 +12,8 @@ export default function SearchScreen() {
       city: "Lyon",
       url: "https://cdn.pixabay.com/photo/2021/02/10/18/25/bengal-6003107_960_720.jpg",
       isFavorite: true,
+      description:
+        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem est nobis explicabo excepturi, suscipit earum reiciendis vel iusto placeat. Quas pariatur dicta cupiditate animi illum enim necessitatibus error eligendi quod.",
     },
     {
       id: 2,
@@ -69,7 +71,7 @@ export default function SearchScreen() {
         platform="android"
         placeholder="Type Here..."
         //@ts-ignore
-        onChangeText={(text: string) :void=> {
+        onChangeText={(text: string): void => {
           setSearch(text);
         }}
         value={search}
