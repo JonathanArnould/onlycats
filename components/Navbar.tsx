@@ -1,15 +1,19 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer, RouteProp } from "@react-navigation/native";
+import { BottomTabNavigationProp, createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import CameraScreen from "../screens/CameraScreen";
 import PublishScreen from "../screens/PublishScreen";
 import Home from "../screens/Home";
 import MapScreen from "../screens/MapScreen";
+import { ParamListBase } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
 
-export default function Navbar() {
+interface navbarProps extends RouteProp<ParamListBase, "App"> {
+  catData : any[]
+} 
+export default function Navbar(props: navbarProps){
   return (
       <Tab.Navigator
         screenOptions={({ route }) => ({
