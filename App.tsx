@@ -1,13 +1,15 @@
+import 'react-native-gesture-handler';
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Image, View, Text } from "react-native";
 import Navbar from "./components/Navbar";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import PublishScreen from "./screens/PublishScreen";
 import axios from "axios";
 import Constants from "expo-constants";
+import { Header } from 'react-native-elements';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-// const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 
@@ -47,17 +49,39 @@ export default function App() {
   }, [])
   
   return (
-    <View style={styles.container}>
-      <NavigationContainer theme={MyTheme}>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="App"
-            options={{ headerShown: false }}
-          >{props => <Navbar {...props} catData={catData} key={""} name="App"/>}</Stack.Screen>
-          <Stack.Screen name="PublishScreen" component={PublishScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </View>
+    <SafeAreaProvider>
+      <View style={styles.container}>
+      <Header
+        barStyle="light-content"
+        containerStyle={{
+          backgroundColor: 'black',
+          justifyContent: 'space-around',
+        }}
+        leftComponent={
+            <Image
+              source={{
+                height: 60,
+                width: 100,
+                uri: "https://www.drelseys.com/wp-content/uploads/2020/07/life-of-a-cat-gang-500x0-c-default.png"
+              }}
+            />  
+        }
+        centerComponent={
+          <Text style={{color: 'white', fontSize:25, fontWeight: 'bold' }}>OnlyCats</Text>
+        }
+      />
+        <NavigationContainer theme={MyTheme}>
+            <Stack.Navigator>
+            <Stack.Screen
+              name="App"
+              options={{ headerShown: false }}
+            >{props => <Navbar {...props} catData={catData} key={""} name="App"/>}
+            </Stack.Screen>
+              <Stack.Screen name="Publication" component={PublishScreen} options={{ headerShown: false }} />
+            </Stack.Navigator>
+        </NavigationContainer>
+      </View>
+    </SafeAreaProvider>
   );
 }
 
