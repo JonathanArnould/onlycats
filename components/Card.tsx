@@ -1,15 +1,21 @@
 import { Ionicons } from "@expo/vector-icons";
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { Card as CardElement } from "react-native-elements";
 import cardStyle from "../styles/card";
 import FlipCard from "react-native-flip-card";
 import card from "../styles/card";
 interface CardProps {
-  data: any;
+    data : any,
+    key?: string
 }
 
 export default function Card({ data }: CardProps) {
+    const [favorite, setFavorite] = useState(data.isFavorite);
+
+    const onFavorite = (d: any): void => {
+        setFavorite(!favorite);
+    };
   return (
     <FlipCard flipHorizontal={true}>
       {/*TOP FACE*/}
@@ -20,11 +26,11 @@ export default function Card({ data }: CardProps) {
         </CardElement.FeaturedSubtitle>
         <CardElement.Divider />
         <CardElement.Image style={cardStyle.image} source={{ uri: data.url }} />
-        <TouchableOpacity style={cardStyle.favorite}>
+        <TouchableOpacity style={cardStyle.favorite} onPress={() => onFavorite(data)}>
           <Ionicons
             name={"logo-octocat"}
             size={30}
-            color={data.favorite ? "yellow" : "grey"}
+            color={favorite ? "yellow" : "grey"}
           />
         </TouchableOpacity>
       </CardElement>

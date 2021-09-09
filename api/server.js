@@ -2,6 +2,7 @@ import express from 'express';
 import expressGraphQl from 'express-graphql';
 import graphqQl from 'graphql';
 import mongoose from 'mongoose';
+import cors from 'cors';
 
 import * as catResolver from './resolvers/cats-resolvers.js'
 
@@ -49,6 +50,7 @@ const app = express();
 const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.a4at6.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`
 const options = { useNewUrlParser: true, useUnifiedTopology: true }
 
+app.use(cors())
 app.use('/graphql', expressGraphQl.graphqlHTTP({
   schema: schema,
   rootValue: catResolver,

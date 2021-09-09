@@ -1,10 +1,12 @@
 import 'react-native-gesture-handler';
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Image, View, Text } from "react-native";
 import Navbar from "./components/Navbar";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import PublishScreen from "./screens/PublishScreen";
+import axios from "axios";
+import Constants from "expo-constants";
 import { Header } from 'react-native-elements';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -12,6 +14,40 @@ const Stack = createNativeStackNavigator();
 
 
 export default function App() {
+
+  const { manifest } = Constants;
+  const uri = `http://${manifest.debuggerHost?.split(`:`).shift().concat(`:4000`)}`;
+
+  const [catData , setCatData] = useState([])
+
+  const fetchData = async () => {
+    try{
+      const data = await axios({
+        url: `${uri}/graphql`,
+        method: "post",
+        data: {
+          query: `{
+            getCats(limit: 10) {
+              _id
+              name
+              isFavorite
+            }
+          }          
+        `,
+        },
+      });
+      setCatData(data.data.data.getCats)
+    }catch (error) {
+      throw error
+    }
+  }
+
+  useEffect(() => {
+    (async () => {
+    await fetchData();
+    })()
+  }, [])
+  
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
@@ -36,11 +72,11 @@ export default function App() {
       />
         <NavigationContainer theme={MyTheme}>
             <Stack.Navigator>
-              <Stack.Screen
-                name="Home"
-                component={Navbar}
-                options={{ headerShown: false }}
-              />
+            <Stack.Screen
+              name="App"
+              options={{ headerShown: false }}
+            >{props => <Navbar {...props} catData={catData} key={""} name="App"/>}
+            </Stack.Screen>
               <Stack.Screen name="Publication" component={PublishScreen} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>

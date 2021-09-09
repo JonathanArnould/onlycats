@@ -1,11 +1,13 @@
 import React from "react";
-import { StyleSheet, Image} from 'react-native';
+import { RouteProp } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { StyleSheet } from 'react-native';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import CameraScreen from "../screens/CameraScreen";
-import PublishScreen from "../screens/PublishScreen";
 import Home from "../screens/Home";
 import MapScreen from "../screens/MapScreen";
+import { ParamListBase } from "@react-navigation/native";
+import Favorites from "../screens/Favorites";
 import SearchScreen from "../screens/SearchScreen";
 
 
@@ -25,7 +27,10 @@ const getIconName = (name: string, focused: boolean) => {
   }
 }
 
-export default function Navbar() {
+interface navbarProps extends RouteProp<ParamListBase, "App"> {
+  catData : any[]
+} 
+export default function Navbar(props: navbarProps){
   return (
       <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -41,6 +46,7 @@ export default function Navbar() {
         <Tab.Screen name="Search" component={SearchScreen} />
         <Tab.Screen name="Camera" component={CameraScreen} />
         <Tab.Screen name="Map" component={MapScreen} />
+        <Tab.Screen name="Favorites" component={Favorites}/>
       </Tab.Navigator>
   );
 }
