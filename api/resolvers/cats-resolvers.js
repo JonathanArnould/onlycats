@@ -3,7 +3,7 @@ import axios from 'axios';
 
 async function createCat(args) {
     try {
-        const { name, file, address, coordinates, breed, category, city } = args.cat
+        const { name, file, address, coordinates, breed, category, city, description } = args.cat
         const imgurRes = await axios({
             method: "POST",
             url: "https://api.imgur.com/3/image",
@@ -19,11 +19,9 @@ async function createCat(args) {
             category,
             url: imgurRes.data.data.link,
             coordinates: { longitude: coordinates.longitude, latitude: coordinates.latitude },
-            createdAt: Date.now()
+            description,
+            createdAt: new Date()
         })
-        const date = new Date();
-        const { name, file, address } = args.cat
-        const cat = new CatModel({ name, url: file, coordinates: { longitude: address, latitude: address }, createdAt: date })
 
         const newCat = await cat.save()
         return newCat
@@ -33,16 +31,9 @@ async function createCat(args) {
 }
 
 async function getCats(args) {
-<<<<<<< HEAD
-    try {
-        const catsList = await CatModel.find().sort({ field: 'desc', createdAt: -1 })
-        if (args) {
-            catsList.limit(args)
-=======
     try{
         if (args.limit) {
             const catsList = await CatModel.find().sort({field: 'desc', createdAt: -1}).limit(args.limit)
->>>>>>> 95785f6fb8693b2d63858d3863d9d675f88f3797
             return catsList;
         } else {
             const catsList = await CatModel.find().sort({field: 'desc', createdAt: -1})

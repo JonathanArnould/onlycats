@@ -41,6 +41,7 @@ const schema = graphqQl.buildSchema(`
     isFavorite: Boolean
     coordinates: Coordinates!
     createdAt: String!
+    description: String!
   }
 
   type Query {

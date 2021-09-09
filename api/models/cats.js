@@ -33,6 +33,10 @@ const catsSchema = new Schema(
       type: Date,
       required: false,
     },
+    description: {
+      type: String,
+      required: true,
+    },                                                                                      
     coordinates: {
       longitude: Number,
       latitude: Number,

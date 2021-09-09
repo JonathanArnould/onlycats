@@ -9,23 +9,15 @@ import {
 } from "react-native";
 import { Camera } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
-import axios from "axios";
-import Constants from "expo-constants";
-import * as Location from "expo-location";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { ParamListBase, useIsFocused, useNavigation } from "@react-navigation/native";
-import {StackNavigationProp} from '@react-navigation/stack';
+import {
+  ParamListBase,
+  useIsFocused,
+  useNavigation,
+} from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
-type CatInput = {
-  name: string;
-  city: string;
-  breed: string;
-  category: string;
-  file: string;
-  address: string;
-};
-
-type CameraScreenProps = StackNavigationProp<ParamListBase, 'Camera'>;
+type CameraScreenProps = StackNavigationProp<ParamListBase, "Camera">;
 
 export default function CameraScreen() {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
@@ -37,7 +29,9 @@ export default function CameraScreen() {
   const navigation = useNavigation<CameraScreenProps>();
 
   const buttonClickedHandler = async () => {
-    const pictureMetadata = await cameraRef.current.takePictureAsync();
+    const pictureMetadata = await cameraRef.current.takePictureAsync({
+      base64: true,
+    });
     navigation.navigate("Publication", {
       picture: pictureMetadata,
     });
@@ -61,55 +55,6 @@ export default function CameraScreen() {
       setHasPermission(status === "granted");
     })();
   }, []);
-
-  const getPositionByAddress = async ({
-    address,
-    city,
-  }: {
-    address: string;
-    city: string;
-  }) => {
-    return Location.geocodeAsync(`${address} ${city}`);
-  };
-
-  const uploadCatData = async ({
-    name,
-    file,
-    category,
-    breed,
-    address,
-    city,
-  }: CatInput) => {
-    const coordinates = await getPositionByAddress({ address, city });
-
-    const body = {
-      query: `
-    mutation {
-      createCat(cat: {name: "${name}", file: "${file}", category: "${category}", breed: "${breed}", city: "${city}", coordinates: {longitude: ${coordinates[0].longitude}, latitude: ${coordinates[0].latitude}}}) {
-        _id
-        url
-        coordinates {
-          longitude
-          latitude
-        }
-        createdAt
-      }
-    }
-    `,
-    };
-    try {
-      await axios({
-        url: `http://${manifest.debuggerHost
-          ?.split(`:`)
-          .shift()
-          .concat(`:4000`)}/graphql`,
-        method: "post",
-        data: body,
-      });
-    } catch (error) {
-      console.log("error", error.message);
-    }
-  };
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -135,9 +80,9 @@ export default function CameraScreen() {
   }
   return (
     <>
-
-
-      {isFocused && (<Camera style={styles.camera} type={type} ref={cameraRef} />)}
+      {isFocused && (
+        <Camera style={styles.camera} type={type} ref={cameraRef} />
+      )}
 
       <TouchableOpacity
         onPress={buttonClickedHandler}
