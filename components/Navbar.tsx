@@ -28,9 +28,10 @@ const getIconName = (name: string, focused: boolean) => {
 }
 
 interface navbarProps extends RouteProp<ParamListBase, "App"> {
-  catData : any[]
+  catData : {}[]
 } 
 export default function Navbar(props: navbarProps){
+  console.log("222", props.catData)
   return (
       <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -42,8 +43,10 @@ export default function Navbar(props: navbarProps){
           tabBarInactiveTintColor: "white",
         })}
       >
-        <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Search" component={SearchScreen} />
+        <Tab.Screen name="Home" 
+        children={()=> <Home catData={props.catData} />} />
+        <Tab.Screen name="Search" 
+        children={()=> <SearchScreen catData={props.catData} />} />
         <Tab.Screen name="Camera" component={CameraScreen} />
         <Tab.Screen name="Map" component={MapScreen} />
         <Tab.Screen name="Favorites" component={Favorites}/>

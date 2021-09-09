@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import Feed from "../components/Feed";
-import { catData } from "../mocks/catData";
 
-export default function Home() {
-  const [catList, setCatList] = useState<{}[]>(catData);
-
-  return <Feed data={catList} />;
+interface HomeProps {
+  catData : {}[]
+}
+export default function Home(props : HomeProps) {
+console.log("333", props.catData)
+  return <Feed data={props.catData} />;
 }

@@ -26,6 +26,7 @@ const schema = graphqQl.buildSchema(`
     _id: ID!
     url: String!
     name: String!
+    breed: String!
     isFavorite: Boolean
     coordinates: Coordinates!
     createdAt: String!
