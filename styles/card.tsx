@@ -21,7 +21,7 @@ const card = StyleSheet.create({
     margin: 10,
   },
   image: {
-    width: 410,
+    flex: 1,
     height: 410,
   },
   bottomFace: {

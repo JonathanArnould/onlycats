@@ -4,7 +4,6 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import { Card as CardElement } from "react-native-elements";
 import cardStyle from "../styles/card";
 import FlipCard from "react-native-flip-card";
-import card from "../styles/card";
 interface CardProps {
     data : any,
     key?: string
