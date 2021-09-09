@@ -2,8 +2,9 @@ import React from "react";
 import Feed from "../components/Feed";
 
 interface HomeProps {
-  catData : {}[]
+  catData : {}[];
+  fetchCats: Function;
 }
 export default function Home(props : HomeProps) {
-  return <Feed data={props.catData} />;
+  return <Feed data={props.catData} fetchCats={props.fetchCats}/>;
 }

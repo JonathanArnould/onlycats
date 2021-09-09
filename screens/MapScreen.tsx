@@ -1,37 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import MapView from "react-native-maps";
 import { Marker } from "react-native-maps";
 import { StyleSheet, View, Dimensions, Alert, Image } from "react-native";
 import * as Location from "expo-location";
-
-const cats = [
-  {
-    id: "1234",
-    name: "kiwi",
-    coordinate: {
-      latitude: 44.84132461780238,
-      longitude: -0.5701245711323272,
-    },
-    image: "https://www.i-cad.fr/uploads/Connaitre_chat.jpg",
-  },
-  {
-    id: "4567",
-    name: "simba",
-    coordinate: {
-      latitude: 44.83427724121175,
-      longitude: -0.5649559458391263,
-    },
-    image:
-      "https://cdn.lelynx.fr/wp-content/uploads/2020/05/GettyImages-1214907564.jpg",
-  },
-];
 
 export default function MapScreen(props: { catData: any[] }) {
   const [userLocation, setUserLocation] = useState({
     latitude: 0,
     longitude: 0,
   });
-  console.log("mapScreen:", props.catData);
+  let mapRef = useRef();
+
   const requestLocationPermission = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -63,27 +42,35 @@ export default function MapScreen(props: { catData: any[] }) {
         latitude: coords.latitude,
         longitude: coords.longitude,
       });
+      mapRef?.current?.fitToSuppliedMarkers([
+        "user",
+        {
+          edgePadding: {},
+          animated: true,
+        },
+      ]);
     })();
   }, []);
+  const fitToView = () => {};
 
   return (
     <View style={styles.container}>
       <MapView
+        ref={mapRef}
         style={styles.map}
         initialRegion={{
           ...userLocation,
           latitudeDelta: 0,
           longitudeDelta: 0,
         }}
-        followsUserLocation={true}
       >
-        <Marker coordinate={userLocation} />
+        <Marker identifier={"user"} coordinate={userLocation} />
         {props?.catData?.map((cat, id) => {
           return (
             <Marker
               title={cat.name}
               description={cat.description}
-              key={cat.id}
+              key={id}
               coordinate={cat.coordinates}
             >
               <View style={styles.marker}>

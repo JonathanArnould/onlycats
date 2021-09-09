@@ -28,6 +28,7 @@ const getIconName = (name: string, focused: boolean) => {
 
 interface navbarProps extends RouteProp<ParamListBase, "App"> {
   catData: {}[];
+  fetchCats: Function;
 }
 export default function Navbar(props: navbarProps) {
   console.log("222", props.catData);
@@ -50,7 +51,9 @@ export default function Navbar(props: navbarProps) {
     >
       <Tab.Screen
         name="Home"
-        children={() => <Home catData={props.catData} />}
+        children={() => (
+          <Home catData={props.catData} fetchCats={props.fetchCats} />
+        )}
       />
       <Tab.Screen
         name="Search"
