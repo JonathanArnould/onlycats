@@ -34,6 +34,7 @@ export default function App() {
               breed
               isFavorite
               coordinates {longitude, latitude}
+              description
             }
           }          
         `,

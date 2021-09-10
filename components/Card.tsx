@@ -13,7 +13,6 @@ interface CardProps {
 
 export default function Card({ data }: CardProps) {
     const [favorite, setFavorite] = useState(data.isFavorite);
-    console.log(data.name, data.isFavorite, favorite)
 
     const { manifest } = Constants;
     const uri = `http://${manifest.debuggerHost?.split(`:`).shift().concat(`:4000`)}`;
