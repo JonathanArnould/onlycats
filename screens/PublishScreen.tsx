@@ -18,10 +18,11 @@ import { Picker } from "@react-native-picker/picker";
 import publication from "../styles/publication";
 
 type RootStackParamList = {
+  Home: any;
   PublishScreen: any;
 };
 
-type Props = NativeStackScreenProps<RootStackParamList, "PublishScreen">;
+type Props = NativeStackScreenProps<RootStackParamList>;
 
 type CatInput = {
   name: string;
@@ -36,7 +37,7 @@ type CatInput = {
   };
 };
 
-export default function ImagesScreen({ route }: Props) {
+export default function ImagesScreen({ route, navigation }: Props) {
   const {
     control,
     handleSubmit,
@@ -103,7 +104,7 @@ export default function ImagesScreen({ route }: Props) {
     }
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: any) => {
     const coordinates = await getPositionByAddress({
       address: data.Address,
       city: data.City,
@@ -117,6 +118,7 @@ export default function ImagesScreen({ route }: Props) {
       description: data.Description,
       coordinates: coordinates[0],
     });
+    navigation.navigate("Home")
   };
 
   return (
