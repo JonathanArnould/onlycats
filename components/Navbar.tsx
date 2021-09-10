@@ -73,7 +73,9 @@ export default function Navbar(props: navbarProps) {
       />
       <Tab.Screen
         name="Favorites"
-        children={() => <Favorites catData={props.catData} />}
+        children={() => <Favorites catData={props.catData} fetchCats={props.fetchCats}/>}
+        options={{unmountOnBlur: true}}
+        listeners={({navigation}) => ({blur: () => navigation.setParams({screen: undefined})})}
       />
     </Tab.Navigator>
   );
