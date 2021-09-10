@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Image,
-  StyleSheet,
   Text,
   View,
   TextInput,
@@ -89,7 +88,6 @@ export default function ImagesScreen({ route, navigation }: Props) {
     }
     `,
     };
-    console.log({ name, category, breed, city, description, coordinates });
     try {
       await axios({
         url: `http://${manifest.debuggerHost
@@ -161,6 +159,7 @@ export default function ImagesScreen({ route, navigation }: Props) {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <Picker
+                style={publication.input}
                 itemStyle={publication.input}
                 prompt={"Race du chat"}
                 selectedValue={selectedBreed}
@@ -185,6 +184,7 @@ export default function ImagesScreen({ route, navigation }: Props) {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <Picker
+                style={publication.input}
                 itemStyle={publication.input}
                 prompt={"Catégorie"}
                 selectedValue={selectedCategory}
@@ -269,27 +269,3 @@ export default function ImagesScreen({ route, navigation }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
-  input: {
-    height: 40,
-    marginBottom: 5,
-    borderWidth: 1,
-    padding: 5,
-    borderRadius: 3,
-    backgroundColor: "white",
-    color: "black",
-  },
-  label: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 18,
-  },
-  container: {
-    padding: 25,
-  },
-  fixToText: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "max",
-  },
-});
