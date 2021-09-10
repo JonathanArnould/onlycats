@@ -9,11 +9,11 @@ interface FavoritesProps {
 
 export default function Favorites(props: FavoritesProps) {
   const [favoritesCat, setFavoritesCat] = useState<any[]>([]);
-
+  
   useEffect(() => {
     const favCats = props.catData.filter((cat) => cat.isFavorite === true);
     setFavoritesCat(favCats);
-  }, []);
+  }, [props.catData]);
 
   return (
     <SafeAreaView style={favoritesStyle.container}>

@@ -1,7 +1,7 @@
 import React from "react";
 import { RouteProp } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StyleSheet } from "react-native";
+import { RefreshControl, StyleSheet } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import CameraScreen from "../screens/CameraScreen";
 import Home from "../screens/Home";
@@ -11,8 +11,8 @@ import Favorites from "../screens/Favorites";
 import SearchScreen from "../screens/SearchScreen";
 
 const Tab = createBottomTabNavigator();
-type IconNames = "camera";
-type OutlineIconNames = "camera-outline";
+type IconNames = "camera" | "star" | "map" | "search" | "home";
+type OutlineIconNames = "camera-outline" | "star-outline" | "map-outline" | "search-outline" | "home-outline";
 type AllIconNames = IconNames | OutlineIconNames;
 const iconNameByFocus = (iconName: IconNames, focused: boolean): AllIconNames =>
   focused ? iconName : `${iconName}-outline`;
@@ -21,6 +21,14 @@ const getIconName = (name: string, focused: boolean) => {
   switch (name) {
     case "Camera":
       return iconNameByFocus("camera", focused);
+    case "Favorites":
+      return iconNameByFocus('star', focused);
+    case "Map":
+      return iconNameByFocus('map', focused);
+    case "Search":
+      return iconNameByFocus('search', focused);
+    case "Home":
+      return iconNameByFocus('home', focused);
     default:
       break;
   }
@@ -31,7 +39,6 @@ interface navbarProps extends RouteProp<ParamListBase, "App"> {
   fetchCats: Function;
 }
 export default function Navbar(props: navbarProps) {
-  console.log("222", props.catData);
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
