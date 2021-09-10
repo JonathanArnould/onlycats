@@ -36,6 +36,7 @@ const getIconName = (name: string, focused: boolean) => {
 
 interface navbarProps extends RouteProp<ParamListBase, "App"> {
   catData: {}[];
+  changeFav: Function;
   fetchCats: Function;
 }
 export default function Navbar(props: navbarProps) {
@@ -59,7 +60,7 @@ export default function Navbar(props: navbarProps) {
       <Tab.Screen
         name="Home"
         children={() => (
-          <Home catData={props.catData} fetchCats={props.fetchCats} />
+          <Home catData={props.catData} fetchCats={props.fetchCats} changeFav={props.changeFav} />
         )}
       />
       <Tab.Screen
@@ -73,9 +74,7 @@ export default function Navbar(props: navbarProps) {
       />
       <Tab.Screen
         name="Favorites"
-        children={() => <Favorites catData={props.catData} fetchCats={props.fetchCats}/>}
-        options={{unmountOnBlur: true}}
-        listeners={({navigation}) => ({blur: () => navigation.setParams({screen: undefined})})}
+        children={() => <Favorites catData={props.catData}/>}
       />
     </Tab.Navigator>
   );

@@ -20,6 +20,11 @@ export default function App() {
 
   const [catData , setCatData] = useState<{}[]>([])
 
+  const changeFav = (catFav: any) => {
+    console.log('FAV!!!!!!')
+    setCatData(catData.map(cat => cat._id === catFav._id ? {...cat, isFavorite: catFav.isFavorite } : cat ))
+  }
+
   const fetchData = async () => {
     try{
       const data = await axios({
@@ -79,7 +84,7 @@ export default function App() {
               <Stack.Screen
                 name="App"
                 options={{ headerShown: false }}
-              >{props => <Navbar {...props} catData={catData} fetchCats={fetchData} key={""} name="App"/>}
+              >{props => <Navbar {...props} catData={catData} fetchCats={fetchData} changeFav={changeFav} key={""} name="App"/>}
               </Stack.Screen>
               <Stack.Screen name="Publication" component={PublishScreen} options={{ headerShown: false }} />
             </Stack.Navigator>

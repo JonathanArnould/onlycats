@@ -5,11 +5,11 @@ import {
   ScrollView,
   } from "react-native";
 import Card from "./Card";
-import Constants from "expo-constants";
 
 interface FeedProps {
   data: any[];
   fetchCats: Function;
+  changeFav: Function;
 }
 
 export default function Feed(props: FeedProps) {
@@ -30,9 +30,9 @@ export default function Feed(props: FeedProps) {
         }
       >
         {refreshing && <ActivityIndicator size="large" />}
-        {props.data.map((cat, i) => {
-          let key = `cat-${i}`;
-          return <Card key={key} data={cat} />;
+        
+        {props.data.map((cat) => {
+          return <Card key={cat._id} data={cat} changeFav={props.changeFav}/>;
         })}
       </ScrollView>
     </>

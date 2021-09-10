@@ -6,12 +6,14 @@ import cardStyle from "../styles/card";
 import FlipCard from "react-native-flip-card";
 import axios from "axios";
 import Constants from "expo-constants";
+
 interface CardProps {
-    data : any,
-    key?: string
+    changeFav: Function;
+    data : any;
+    key?: string;
 }
 
-export default function Card({ data }: CardProps) {
+export default function Card({ data, changeFav }: CardProps) {
     const [favorite, setFavorite] = useState(data.isFavorite);
     
     const { manifest } = Constants;
@@ -27,10 +29,13 @@ export default function Card({ data }: CardProps) {
                 addToFavorites(fav: {id: "${id}"}) {
                   name
                   isFavorite
+                  _id
                 }
               }`
           }
         })
+
+        changeFav(favCat.data.data.addToFavorites);
         setFavorite(favCat.data.data.addToFavorites.isFavorite);
       } catch (error){
         console.log(error.response)

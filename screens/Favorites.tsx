@@ -1,30 +1,22 @@
 import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Image, View, FlatList, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import favoritesStyle from "../styles/favorites";
 
 interface FavoritesProps extends BottomTabNavigationOptions {
   catData: any[];
-  fetchCats: Function;
 }
 
 export default function Favorites(props: FavoritesProps) {
-  const [favoritesCat, setFavoritesCat] = useState<any[]>([]);
-  
-  useEffect(() => {
-    props.fetchCats();
-    const favCats = props.catData.filter((cat) => cat.isFavorite === true);
-    setFavoritesCat(favCats);
-  }, []);
 
   return (
     <SafeAreaView style={favoritesStyle.container}>
-      {favoritesCat.length > 0 ? (
+      {props.catData.length > 0 ? (
         <FlatList
           numColumns={4}
-          data={favoritesCat}
-          keyExtractor={(cat) => cat.id}
+          data={props.catData.filter((cat) => cat.isFavorite === true)}
+          keyExtractor={(cat) => cat._id}
           renderItem={(itemCat) => {
             return (
               <View>
