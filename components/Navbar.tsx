@@ -1,7 +1,7 @@
 import React from "react";
 import { RouteProp } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { RefreshControl, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import CameraScreen from "../screens/CameraScreen";
 import Home from "../screens/Home";

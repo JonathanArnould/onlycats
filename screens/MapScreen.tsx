@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import MapView from "react-native-maps";
 import { Marker } from "react-native-maps";
-import { StyleSheet, View, Dimensions, Alert, Image } from "react-native";
+import { View, Alert, Image } from "react-native";
 import * as Location from "expo-location";
+import map from "../styles/map";
 
 export default function MapScreen(props: { catData: any[] }) {
   const [userLocation, setUserLocation] = useState({
@@ -54,10 +55,10 @@ export default function MapScreen(props: { catData: any[] }) {
   const fitToView = () => {};
 
   return (
-    <View style={styles.container}>
+    <View style={map.container}>
       <MapView
         ref={mapRef}
-        style={styles.map}
+        style={map.map}
         initialRegion={{
           ...userLocation,
           latitudeDelta: 0,
@@ -73,8 +74,8 @@ export default function MapScreen(props: { catData: any[] }) {
               key={id}
               coordinate={cat.coordinates}
             >
-              <View style={styles.marker}>
-                <Image source={{ uri: cat.url }} style={styles.image} />
+              <View style={map.marker}>
+                <Image source={{ uri: cat.url }} style={map.image} />
               </View>
             </Marker>
           );
@@ -84,25 +85,3 @@ export default function MapScreen(props: { catData: any[] }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  map: {
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
-  },
-  image: {
-    borderRadius: 100,
-    width: 50,
-    height: 50,
-  },
-  marker: {
-    backgroundColor: "blue",
-    padding: 2,
-    borderRadius: 100,
-  },
-});

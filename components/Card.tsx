@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { Card as CardElement } from "react-native-elements";
 import cardStyle from "../styles/card";
 import FlipCard from "react-native-flip-card";
@@ -13,8 +13,6 @@ interface CardProps {
 
 export default function Card({ data }: CardProps) {
     const [favorite, setFavorite] = useState(data.isFavorite);
-    console.log(data.name, data.isFavorite, favorite)
-
     const { manifest } = Constants;
     const uri = `http://${manifest.debuggerHost?.split(`:`).shift().concat(`:4000`)}`;
 

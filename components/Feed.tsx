@@ -1,10 +1,9 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 import {
   ActivityIndicator,
   RefreshControl,
   ScrollView,
-  StyleSheet,
-} from "react-native";
+  } from "react-native";
 import Card from "./Card";
 import Constants from "expo-constants";
 

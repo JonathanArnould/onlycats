@@ -63,9 +63,6 @@ export default function CameraScreen() {
       quality: 1,
       base64: true,
     });
-
-    console.log(result);
-
     if (!result.cancelled) {
       setImage(result.uri);
       navigation.navigate("Publication", {
