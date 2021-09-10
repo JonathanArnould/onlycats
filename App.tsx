@@ -21,14 +21,13 @@ export default function App() {
   const [catData , setCatData] = useState<{}[]>([])
 
   const fetchData = async () => {
-    console.log('refresh')
     try{
       const data = await axios({
         url: `${uri}/graphql`,
         method: "post",
         data: {
           query: `{
-            getCats(limit: 10) {
+            getCats(limit: 20) {
               _id
               name
               url
@@ -76,11 +75,11 @@ export default function App() {
       />
         <NavigationContainer theme={MyTheme}>
             <Stack.Navigator>
-            <Stack.Screen
-              name="App"
-              options={{ headerShown: false }}
-            >{props => <Navbar {...props} catData={catData} fetchCats={fetchData} key={""} name="App"/>}
-            </Stack.Screen>
+              <Stack.Screen
+                name="App"
+                options={{ headerShown: false }}
+              >{props => <Navbar {...props} catData={catData} fetchCats={fetchData} key={""} name="App"/>}
+              </Stack.Screen>
               <Stack.Screen name="Publication" component={PublishScreen} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>

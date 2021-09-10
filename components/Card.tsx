@@ -4,6 +4,8 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import { Card as CardElement } from "react-native-elements";
 import cardStyle from "../styles/card";
 import FlipCard from "react-native-flip-card";
+import axios from "axios";
+import Constants from "expo-constants";
 interface CardProps {
     data : any,
     key?: string
@@ -11,9 +13,32 @@ interface CardProps {
 
 export default function Card({ data }: CardProps) {
     const [favorite, setFavorite] = useState(data.isFavorite);
+    console.log(data.name, data.isFavorite, favorite)
 
-    const onFavorite = (d: any): void => {
-        setFavorite(!favorite);
+    const { manifest } = Constants;
+    const uri = `http://${manifest.debuggerHost?.split(`:`).shift().concat(`:4000`)}`;
+
+    const onFavorite = async (id: string): Promise<any> => {
+      try{
+        const favCat = await axios({
+          url: `${uri}/graphql`,
+          method: "post",
+          data: {
+            query: `mutation {
+                addToFavorites(fav: {id: "${id}"}) {
+                  name
+                  isFavorite
+                }
+              }`
+          }
+        })
+        setFavorite(favCat.data.data.addToFavorites.isFavorite);
+      } catch (error){
+        console.log(error.response)
+        throw error
+      }
+        
+
     };
   return (
     <FlipCard flipHorizontal={true}>
@@ -25,7 +50,7 @@ export default function Card({ data }: CardProps) {
         </CardElement.FeaturedSubtitle>
         <CardElement.Divider />
         <CardElement.Image style={cardStyle.image} source={{ uri: data.url }} />
-        <TouchableOpacity style={cardStyle.favorite} onPress={() => onFavorite(data)}>
+        <TouchableOpacity style={cardStyle.favorite} onPress={() => onFavorite(data._id)}>
           <Ionicons
             name={"logo-octocat"}
             size={30}

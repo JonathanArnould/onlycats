@@ -49,11 +49,10 @@ async function addToFavorites(args) {
     try{
         const { id } = args.fav
         const beforeUpdateCat = await CatModel.findOne({_id: id})
-
         const favoriteUpdate = !beforeUpdateCat.isFavorite
         const body = { isFavorite: favoriteUpdate };
         
-        return CatModel.findOneAndUpdate({_id: id}, body);
+        return CatModel.findOneAndUpdate({_id: id}, body, {returnOriginal: false});
     } catch (error) {
         throw error;
     }

@@ -39,7 +39,7 @@ const schema = graphqQl.buildSchema(`
     city: String!
     breed: String!
     category: String!
-    isFavorite: Boolean
+    isFavorite: Boolean!
     coordinates: Coordinates!
     createdAt: String!
     description: String!
